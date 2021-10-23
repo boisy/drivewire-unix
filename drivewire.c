@@ -507,6 +507,8 @@ void *CoCoProcessor(void *data)
 
 		WinUpdate(window0, dp);
 	}
+
+	return NULL;
 }
 
 
