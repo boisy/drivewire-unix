@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <ctype.h>
 #if !defined(__sun)
 #include <stdint.h>
 #endif
@@ -215,7 +216,7 @@ int main(void)
 
 	signal(SIGUSR1, sighandler);
 
-	datapack.dw_protocol_vrsn = 2;
+	datapack.dw_protocol_vrsn = 3;
 
 	if (loadPreferences(&datapack) != 0)
 	{
@@ -296,6 +297,8 @@ int main(void)
 				{
 					datapack.dw_protocol_vrsn = 1;
 				}
+				setCoCo(&datapack, datapack.cocoType);
+				comRaw(&datapack);
 				WinUpdate(window0, &datapack);
 				break;
 
@@ -1526,7 +1529,7 @@ void logHeader(void)
 	currentTime = time(NULL);
 	timepak = localtime(&currentTime);
 
-	fprintf(logfp, "%04d-%02d-%02d %02d:%02d:%02d ", 
+	fprintf(logfp, "%04d-%02d-%02d %02d:%02d:%02d (%02d)", 
 		1900 + timepak->tm_year,
 		timepak->tm_mon + 1,
 		timepak->tm_mday,

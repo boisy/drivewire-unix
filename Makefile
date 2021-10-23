@@ -1,7 +1,7 @@
 vpath %.c .
 
 CFLAGS += -g -DLINUX
-LDFLAGS	+= -lcurses -lpthread -g
+LDLIBS	+= -lcurses -lpthread -g
 
 drivewire: drivewire.o
 
