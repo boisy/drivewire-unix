@@ -9,4 +9,4 @@ clean:
 	rm drivewire drivewire.o
 
 install: drivewire
-	cp drivewire ~/bin
+	cp drivewire /usr/local/bin
