@@ -134,6 +134,9 @@ FILE *logfp = NULL;
 WINDOW *window0, *window1, *window2, *window3;
 
 
+struct dwTransferData datapack;
+
+
 void sighandler(int signum)
 {
 	switch (signum)
@@ -141,6 +144,17 @@ void sighandler(int signum)
 		case SIGUSR1:
 			thread_dead = 1;
 			pthread_exit(NULL);
+			break;
+		case SIGHUP:
+			closeDSK(&datapack, 0);
+			closeDSK(&datapack, 1);
+			closeDSK(&datapack, 2);
+			closeDSK(&datapack, 3);
+			openDSK(&datapack, 0);
+			openDSK(&datapack, 1);
+			openDSK(&datapack, 2);
+			openDSK(&datapack, 3);
+			break;
 	}
 }
 
@@ -208,13 +222,13 @@ void setCoCo(struct dwTransferData *dp, int cocoType)
 
 int main(void)
 {
-        struct dwTransferData datapack;
 	int i;
 	pthread_t thread_id;
 	int quitter = 0;
 
 
 	signal(SIGUSR1, sighandler);
+	signal(SIGHUP, sighandler);
 
 	datapack.dw_protocol_vrsn = 3;
 
